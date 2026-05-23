@@ -1,0 +1,506 @@
+import northernEurope from "@/assets/cruise-maps/northern-europe.jpg";
+import caribbean from "@/assets/cruise-maps/caribbean.jpg";
+import westernMed from "@/assets/cruise-maps/western-mediterranean.jpg";
+import easternMed from "@/assets/cruise-maps/eastern-mediterranean.jpg";
+import japanAsia from "@/assets/cruise-maps/japan-asia.jpg";
+import southeastAsia from "@/assets/cruise-maps/southeast-asia.jpg";
+import alaska from "@/assets/cruise-maps/alaska.jpg";
+import britishIsles from "@/assets/cruise-maps/british-isles.jpg";
+
+export interface CruiseLine {
+  name: string;
+  nameAr: string;
+  logo: string;
+  description: string;
+  highlights: string[];
+  website: string;
+}
+
+export interface CruiseDay {
+  day: number;
+  port: string;
+  time?: string;
+}
+
+export interface CruisePackage {
+  id: number;
+  nights: number;
+  region: string;
+  regionAr: string;
+  cruiseLine: string;
+  ship: string;
+  map: string;
+  itinerary: CruiseDay[];
+}
+
+export const cruiseFeatures = [
+  { icon: "✨", title: "الفخامة المطلقة", description: "استمتع بتجربة إقامة فاخرة على متن السفينة" },
+  { icon: "🌍", title: "تنوع الوجهات", description: "استكشف وجهات عالمية متعددة في رحلة واحدة" },
+  { icon: "🎉", title: "أنشطة لجميع الأعمار", description: "ترفيه للعائلة والأطفال والشباب" },
+  { icon: "🍽️", title: "الطعام العالمي", description: "تجربة مأكولات متنوعة على أعلى المستويات" },
+  { icon: "🎭", title: "العروض الترفيهية", description: "فعاليات وحفلات ممتعة طوال الرحلة" },
+];
+
+export const cruiseLines: CruiseLine[] = [
+  {
+    name: "AROYA Cruises",
+    nameAr: "أرويا كروز",
+    logo: "https://aroya.com/themes/custom/starter/aroya-logo.svg",
+    description: "أول خط رحلات بحرية سعودي يقدم تجارب فريدة في البحر الأحمر مع ترفيه عربي أصيل ومأكولات عالمية",
+    highlights: ["رحلات من جدة", "ترفيه عربي", "وجهات البحر الأحمر", "تجربة سعودية أصيلة"],
+    website: "https://aroya.com/en",
+  },
+  {
+    name: "Royal Caribbean",
+    nameAr: "رويال كاريبيان",
+    logo: "https://www.royalcaribbean.com/content/dam/royal/global/global-nav/rci-logo-white.svg",
+    description: "واحدة من أكبر شركات الرحلات البحرية في العالم، تقدم مغامرات أسطورية في أوروبا والبحر الكاريبي وآسيا",
+    highlights: ["سفن عملاقة", "مغامرات أوروبا", "حدائق مائية", "مسارح وعروض حية"],
+    website: "https://www.royalcaribbean.ae",
+  },
+  {
+    name: "MSC Cruises",
+    nameAr: "إم إس سي كروز",
+    logo: "https://www.msccruises.com/int/-/media/global-contents/logos/msc-logo.svg",
+    description: "خط رحلات بحرية أوروبي فاخر يقدم أفضل العطلات البحرية مع وجهات متنوعة حول العالم",
+    highlights: ["فخامة أوروبية", "وجهات عالمية", "سبا وعافية", "ترفيه عائلي"],
+    website: "https://www.msccruises.com",
+  },
+  {
+    name: "Disney Cruise Line",
+    nameAr: "ديزني كروز لاين",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Disney_Cruise_Line_logo.svg/800px-Disney_Cruise_Line_logo.svg.png",
+    description: "تجربة بحرية سحرية للعائلات مع شخصيات ديزني المحبوبة وترفيه لا يُنسى للأطفال والكبار",
+    highlights: ["ترفيه ديزني", "مثالية للعائلات", "جزر خاصة", "عروض مسرحية"],
+    website: "https://disneycruise.disney.go.com",
+  },
+  {
+    name: "Norwegian Cruise Line",
+    nameAr: "نورويجيان كروز لاين",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Norwegian_Cruise_Line_logo.svg/800px-Norwegian_Cruise_Line_logo.svg.png",
+    description: "حرية الإبحار بأسلوبك الخاص مع مفهوم Freestyle Cruising الفريد ووجهات استثنائية",
+    highlights: ["حرية الاختيار", "مطاعم متنوعة", "وجهات نرويجية", "أجواء مرنة"],
+    website: "https://www.ncl.com",
+  },
+  {
+    name: "The Ritz-Carlton Yacht Collection",
+    nameAr: "ذا ريتز كارلتون يخت كولكشن",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/The_Ritz-Carlton_logo.svg/800px-The_Ritz-Carlton_logo.svg.png",
+    description: "تجربة يخت فاخرة بمعايير ريتز كارلتون مع خدمة شخصية استثنائية ووجهات حصرية",
+    highlights: ["يخوت فاخرة", "خدمة ريتز كارلتون", "وجهات حصرية", "تجربة شخصية"],
+    website: "https://www.ritzcarltonyachtcollection.com",
+  },
+  {
+    name: "Costa Cruises",
+    nameAr: "كوستا كروز",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Costa_Crociere_logo.svg/800px-Costa_Crociere_logo.svg.png",
+    description: "خط رحلات بحرية إيطالي يقدم الأجواء المتوسطية الأصيلة مع مأكولات إيطالية فاخرة",
+    highlights: ["أجواء إيطالية", "البحر المتوسط", "مأكولات إيطالية", "ترفيه حيوي"],
+    website: "https://www.costacruises.com",
+  },
+  {
+    name: "Regent Seven Seas",
+    nameAr: "ريجنت سفن سيز",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Regent_Seven_Seas_Cruises_logo.svg/800px-Regent_Seven_Seas_Cruises_logo.svg.png",
+    description: "رحلات بحرية شاملة كلياً مع أجنحة فسيحة وتجارب شاطئية حصرية في أكثر من 450 وجهة",
+    highlights: ["شامل كلياً", "أجنحة فسيحة", "450+ وجهة", "رحلات شاطئية مجانية"],
+    website: "https://www.rssc.com",
+  },
+];
+
+// Region maps for cruises by region keyword
+const mapForRegion = (region: string): string => {
+  const r = region.toLowerCase();
+  if (r.includes("northern europe")) return northernEurope;
+  if (r.includes("british") || r.includes("western europe")) return britishIsles;
+  if (r.includes("alaska")) return alaska;
+  if (r.includes("caribbean") || r.includes("bahamas") || r.includes("transatlantic")) return caribbean;
+  if (r.includes("eastern mediterranean")) return easternMed;
+  if (r.includes("western mediterranean") || r.includes("southern europe") || r.includes("mediterranean")) return westernMed;
+  if (r.includes("southeast asia")) return southeastAsia;
+  if (r.includes("asia")) return japanAsia;
+  return westernMed;
+};
+
+const trips: Omit<CruisePackage, "map">[] = [
+  { id: 1, nights: 7, region: "Northern Europe", regionAr: "شمال أوروبا", cruiseLine: "Disney Cruise Line", ship: "Disney Dream", itinerary: [
+    { day: 1, port: "Southampton", time: "Depart 05:00 PM | Board 04:00 PM" },
+    { day: 2, port: "At Sea" },
+    { day: 3, port: "Haugesund", time: "10:00 AM – 05:15 PM" },
+    { day: 4, port: "Olden", time: "07:00 AM – 05:15 PM" },
+    { day: 5, port: "Alesund", time: "07:00 AM – 04:15 PM" },
+    { day: 6, port: "Stavanger", time: "08:30 AM – 05:45 PM" },
+    { day: 7, port: "At Sea" },
+    { day: 8, port: "Southampton", time: "Disembark 08:00 AM" },
+  ]},
+  { id: 2, nights: 4, region: "Bahamas", regionAr: "الباهاما", cruiseLine: "Disney Cruise Line", ship: "Disney Fantasy", itinerary: [
+    { day: 1, port: "Port Canaveral", time: "Depart 04:00 PM | Board 03:00 PM" },
+    { day: 2, port: "Castaway Cay", time: "08:30 AM – 05:00 PM" },
+    { day: 3, port: "Disney Lookout Cay", time: "08:30 AM – 05:00 PM" },
+    { day: 4, port: "At Sea" },
+    { day: 5, port: "Port Canaveral", time: "Disembark 07:30 AM" },
+  ]},
+  { id: 3, nights: 7, region: "Caribbean Western", regionAr: "غرب الكاريبي", cruiseLine: "Disney Cruise Line", ship: "Disney Treasure", itinerary: [
+    { day: 1, port: "Port Canaveral", time: "Depart 04:45 PM | Board 03:45 PM" },
+    { day: 2, port: "At Sea" },
+    { day: 3, port: "Cozumel", time: "08:30 AM – 05:00 PM" },
+    { day: 4, port: "George Town, Grand Cayman", time: "10:30 AM – 06:00 PM" },
+    { day: 5, port: "Falmouth", time: "07:30 AM – 05:00 PM" },
+    { day: 6, port: "At Sea" },
+    { day: 7, port: "Castaway Cay", time: "08:00 AM – 04:45 PM" },
+    { day: 8, port: "Port Canaveral", time: "Disembark 07:30 AM" },
+  ]},
+  { id: 4, nights: 7, region: "British Isles", regionAr: "الجزر البريطانية", cruiseLine: "Disney Cruise Line", ship: "Disney Dream", itinerary: [
+    { day: 1, port: "Southampton", time: "Depart 04:45 PM | Board 03:45 PM" },
+    { day: 2, port: "At Sea" },
+    { day: 3, port: "Liverpool", time: "09:00 AM – 06:45 PM" },
+    { day: 4, port: "Greenock", time: "09:00 AM – 08:15 PM" },
+    { day: 5, port: "At Sea" },
+    { day: 6, port: "Cobh (Cork), Ireland", time: "06:30 AM – 03:15 PM" },
+    { day: 7, port: "Portland", time: "09:15 AM – 06:45 PM" },
+    { day: 8, port: "Southampton", time: "Disembark 08:00 AM" },
+  ]},
+  { id: 5, nights: 13, region: "Transatlantic", regionAr: "عبر الأطلسي", cruiseLine: "Disney Cruise Line", ship: "Disney Dream", itinerary: [
+    { day: 1, port: "Southampton", time: "Depart 05:00 PM" },
+    { day: 2, port: "At Sea" },
+    { day: 3, port: "Vigo", time: "10:00 AM – 05:15 PM" },
+    { day: 4, port: "Lisbon", time: "09:00 AM – 09:15 PM" },
+    { day: 5, port: "At Sea" },
+    { day: 6, port: "Madeira", time: "07:00 AM – 04:15 PM" },
+    { day: 7, port: "At Sea" },
+    { day: 8, port: "At Sea" },
+    { day: 9, port: "At Sea" },
+    { day: 10, port: "At Sea" },
+    { day: 11, port: "At Sea" },
+    { day: 12, port: "At Sea" },
+    { day: 13, port: "At Sea" },
+    { day: 14, port: "Port Everglades", time: "Disembark 08:00 AM" },
+  ]},
+  { id: 6, nights: 11, region: "Southern Europe", regionAr: "جنوب أوروبا", cruiseLine: "Costa Cruises", ship: "Costa Diadema", itinerary: [
+    { day: 1, port: "Barcelona (Spain)", time: "Depart 07:30 PM" },
+    { day: 2, port: "Day At Sea" },
+    { day: 3, port: "Cadiz (Spain)", time: "07:30 AM – 05:00 PM" },
+    { day: 4, port: "Lisbon (Portugal)", time: "Arrive 10:00 AM" },
+    { day: 5, port: "Lisbon (Portugal)", time: "Depart 02:00 PM" },
+    { day: 6, port: "Gibraltar (UK)", time: "01:00 PM – 07:00 PM" },
+    { day: 7, port: "Malaga (Spain)", time: "08:00 AM – 06:00 PM" },
+    { day: 8, port: "Cartagena (Spain)", time: "08:00 AM – 06:00 PM" },
+    { day: 9, port: "Day At Sea" },
+    { day: 10, port: "Marseille (France)", time: "09:00 AM – 06:00 PM" },
+    { day: 11, port: "Savona (Italy)", time: "09:00 AM – 04:30 PM" },
+    { day: 12, port: "Barcelona (Spain)", time: "Arrive 02:00 PM" },
+  ]},
+  { id: 7, nights: 10, region: "Southern Europe", regionAr: "جنوب أوروبا", cruiseLine: "Costa Cruises", ship: "Costa Diadema", itinerary: [
+    { day: 1, port: "Barcelona", time: "Depart 07:30 PM" },
+    { day: 2, port: "Day At Sea" },
+    { day: 3, port: "Tangier", time: "08:00 AM – 08:00 PM" },
+    { day: 4, port: "Casablanca", time: "07:00 AM – 10:00 PM" },
+    { day: 5, port: "Cadiz", time: "02:00 PM – 08:00 PM" },
+    { day: 6, port: "Malaga", time: "08:00 AM – 05:00 PM" },
+    { day: 7, port: "Alicante", time: "10:00 AM – 08:00 PM" },
+    { day: 8, port: "Day At Sea" },
+    { day: 9, port: "Marseille", time: "08:00 AM – 05:00 PM" },
+    { day: 10, port: "Savona", time: "09:00 AM – 04:30 PM" },
+    { day: 11, port: "Barcelona", time: "Arrive 02:00 PM" },
+  ]},
+  { id: 8, nights: 8, region: "Mediterranean", regionAr: "البحر المتوسط", cruiseLine: "Costa Cruises", ship: "Costa Fascinosa", itinerary: [
+    { day: 1, port: "Barcelona", time: "Depart 05:00 PM" },
+    { day: 2, port: "Marseille", time: "08:00 AM – 05:00 PM" },
+    { day: 3, port: "Savona", time: "08:00 AM – 04:30 PM" },
+    { day: 4, port: "Civitavecchia (Rome)", time: "08:00 AM – 06:30 PM" },
+    { day: 5, port: "Naples", time: "08:00 AM – 06:00 PM" },
+    { day: 6, port: "Palermo", time: "08:00 AM – 05:00 PM" },
+    { day: 7, port: "La Goulette", time: "08:00 AM – 04:30 PM" },
+    { day: 8, port: "Malta La Valletta", time: "10:00 AM – 07:00 PM" },
+    { day: 9, port: "Catania", time: "Arrive 07:00 AM" },
+  ]},
+  { id: 9, nights: 8, region: "Mediterranean", regionAr: "البحر المتوسط", cruiseLine: "Costa Cruises", ship: "Costa Fortuna", itinerary: [
+    { day: 1, port: "Barcelona", time: "Depart 05:00 PM" },
+    { day: 2, port: "Marseille", time: "08:00 AM – 05:00 PM" },
+    { day: 3, port: "Savona", time: "08:00 AM – 06:00 PM" },
+    { day: 4, port: "Civitavecchia (Rome)", time: "08:00 AM – 06:00 PM" },
+    { day: 5, port: "Messina (Taormina)", time: "02:00 PM – 08:00 PM" },
+    { day: 6, port: "Malta La Valletta", time: "09:00 AM – 07:00 PM" },
+    { day: 7, port: "Day At Sea" },
+    { day: 8, port: "Heraklion", time: "09:00 AM – 07:00 PM" },
+    { day: 9, port: "Athens (Piraeus)", time: "Arrive 07:00 AM" },
+  ]},
+  { id: 10, nights: 7, region: "Mediterranean", regionAr: "البحر المتوسط", cruiseLine: "MSC Cruises", ship: "MSC Armonia", itinerary: [
+    { day: 1, port: "Split, Croatia", time: "Depart 05:00 PM" },
+    { day: 2, port: "Venice – Marghera, Italy", time: "08:00 AM – 07:00 PM" },
+    { day: 3, port: "At Sea" },
+    { day: 4, port: "Dubrovnik, Croatia", time: "07:00 AM – 07:00 PM" },
+    { day: 5, port: "Corfu, Greece", time: "09:00 AM – 06:00 PM" },
+    { day: 6, port: "Kotor, Montenegro", time: "08:00 AM – 06:00 PM" },
+    { day: 7, port: "Brindisi (Lecce), Italy", time: "07:00 AM – 06:00 PM" },
+    { day: 8, port: "Split, Croatia", time: "Arrive 08:00 AM" },
+  ]},
+  { id: 11, nights: 8, region: "Asia and Asia Pacific", regionAr: "آسيا والمحيط الهادئ", cruiseLine: "MSC Cruises", ship: "MSC Bellissima", itinerary: [
+    { day: 1, port: "Shanghai, China", time: "Depart 05:00 PM" },
+    { day: 2, port: "At Sea" },
+    { day: 3, port: "Naha (Okinawa), Japan", time: "07:00 AM – 08:00 PM" },
+    { day: 4, port: "At Sea" },
+    { day: 5, port: "Shanghai, China", time: "07:00 AM – 05:00 PM" },
+    { day: 6, port: "Jeju Island, Korea", time: "02:30 PM – 10:00 PM" },
+    { day: 7, port: "Busan, Korea", time: "10:00 AM – 09:00 PM" },
+    { day: 8, port: "At Sea" },
+    { day: 9, port: "Shanghai, China", time: "Arrive 07:00 AM" },
+  ]},
+  { id: 12, nights: 7, region: "Mediterranean", regionAr: "البحر المتوسط", cruiseLine: "MSC Cruises", ship: "MSC Divina", itinerary: [
+    { day: 1, port: "Kusadasi, Turkey", time: "Depart 06:00 PM" },
+    { day: 2, port: "Marmaris, Turkey", time: "07:00 AM – 05:00 PM" },
+    { day: 3, port: "At Sea" },
+    { day: 4, port: "Naples (Pompeii), Italy", time: "11:00 AM – 08:00 PM" },
+    { day: 5, port: "Civitavecchia (Rome), Italy", time: "07:00 AM – 05:00 PM" },
+    { day: 6, port: "At Sea" },
+    { day: 7, port: "Mykonos, Greece", time: "02:00 PM – 11:30 PM" },
+    { day: 8, port: "Kusadasi, Turkey", time: "Arrive 09:00 AM" },
+  ]},
+  { id: 13, nights: 11, region: "Alaska", regionAr: "ألاسكا", cruiseLine: "Norwegian Cruise Line", ship: "Norwegian Bliss", itinerary: [
+    { day: 1, port: "At Hotel" },
+    { day: 2, port: "At Hotel" },
+    { day: 3, port: "At Hotel" },
+    { day: 4, port: "At Hotel" },
+    { day: 5, port: "Seattle, WA", time: "Depart 04:00 PM" },
+    { day: 6, port: "At Sea" },
+    { day: 7, port: "Sitka, AK", time: "10:00 AM – 06:00 PM" },
+    { day: 8, port: "Endicott Arm Dawes Glacier / Juneau, AK", time: "06:30 AM – 01:30 PM" },
+    { day: 9, port: "Icy Strait Point, AK", time: "06:00 AM – 03:00 PM" },
+    { day: 10, port: "Ketchikan (Ward Cove), AK", time: "06:00 AM – 01:15 PM" },
+    { day: 11, port: "Victoria BC, Canada", time: "08:00 PM – 11:59 PM" },
+    { day: 12, port: "Seattle, WA", time: "Arrive 07:00 AM" },
+  ]},
+  { id: 14, nights: 7, region: "Southern Europe", regionAr: "جنوب أوروبا", cruiseLine: "Norwegian Cruise Line", ship: "Norwegian Dawn", itinerary: [
+    { day: 1, port: "Lisbon, Portugal", time: "Depart 04:00 PM" },
+    { day: 2, port: "Portimao, Portugal", time: "07:00 AM – 06:00 PM" },
+    { day: 3, port: "Cadiz / Seville, Spain", time: "07:00 AM – 07:00 PM" },
+    { day: 4, port: "Motril, Spain", time: "07:00 AM – 11:59 PM" },
+    { day: 5, port: "Gibraltar", time: "07:00 AM – 01:00 PM" },
+    { day: 6, port: "Ibiza, Spain", time: "12:30 PM – 10:30 PM" },
+    { day: 7, port: "Palma Majorca, Spain", time: "07:00 AM – 06:00 PM" },
+    { day: 8, port: "Barcelona, Spain", time: "Arrive 06:00 AM" },
+  ]},
+  { id: 15, nights: 7, region: "Western Mediterranean", regionAr: "غرب البحر المتوسط", cruiseLine: "Norwegian Cruise Line", ship: "Norwegian Dawn", itinerary: [
+    { day: 1, port: "Barcelona, Spain", time: "Depart 04:00 PM" },
+    { day: 2, port: "Palma Majorca, Spain", time: "07:00 AM – 09:00 PM" },
+    { day: 3, port: "Valencia, Spain", time: "07:00 AM – 04:00 PM" },
+    { day: 4, port: "Motril, Spain", time: "10:00 AM – 11:59 PM" },
+    { day: 5, port: "Gibraltar", time: "08:00 AM – 03:00 PM" },
+    { day: 6, port: "Cadiz / Seville, Spain", time: "07:00 AM – 07:00 PM" },
+    { day: 7, port: "Portimao, Portugal", time: "07:00 AM – 06:00 PM" },
+    { day: 8, port: "Lisbon, Portugal", time: "Arrive 06:00 AM" },
+  ]},
+  { id: 16, nights: 7, region: "Western Mediterranean", regionAr: "غرب البحر المتوسط", cruiseLine: "Norwegian Cruise Line", ship: "Norwegian Epic", itinerary: [
+    { day: 1, port: "Barcelona, Spain", time: "Depart 05:00 PM" },
+    { day: 2, port: "Provence / Marseille, France", time: "07:00 AM – 05:00 PM" },
+    { day: 3, port: "Nice/Monaco (Villefranche), France", time: "07:00 AM – 06:00 PM" },
+    { day: 4, port: "Livorno / Florence / Pisa, Italy", time: "07:00 AM – 11:59 PM" },
+    { day: 5, port: "At Sea" },
+    { day: 6, port: "Messina, Italy", time: "07:00 AM – 06:00 PM" },
+    { day: 7, port: "Amalfi Coast (Salerno), Italy", time: "07:00 AM – 06:00 PM" },
+    { day: 8, port: "Civitavecchia / Rome, Italy", time: "Arrive 06:00 AM" },
+  ]},
+  { id: 17, nights: 11, region: "Southeast Asia", regionAr: "جنوب شرق آسيا", cruiseLine: "Regent Seven Seas", ship: "Seven Seas Explorer", itinerary: [
+    { day: 1, port: "Tokyo", time: "Depart 07:00 PM" },
+    { day: 2, port: "Shimizu", time: "07:00 AM – 04:00 PM" },
+    { day: 3, port: "Kyoto (Kobe)", time: "Arrive 12:00 PM" },
+    { day: 4, port: "Kyoto (Kobe)", time: "Depart 07:00 PM" },
+    { day: 5, port: "Kochi", time: "07:00 AM – 04:00 PM" },
+    { day: 6, port: "Hiroshima", time: "07:00 AM – 04:00 PM" },
+    { day: 7, port: "Cruising Kanmon Strait / Busan", time: "10:00 AM – 08:00 PM" },
+    { day: 8, port: "Nagasaki", time: "08:00 AM – 06:00 PM" },
+    { day: 9, port: "Kagoshima", time: "08:00 AM – 05:00 PM" },
+    { day: 10, port: "Beppu", time: "10:00 AM – 06:00 PM" },
+    { day: 11, port: "Cruising the Pacific Ocean" },
+    { day: 12, port: "Tokyo", time: "Arrive 08:00 AM" },
+  ]},
+  { id: 18, nights: 10, region: "Southeast Asia", regionAr: "جنوب شرق آسيا", cruiseLine: "Regent Seven Seas", ship: "Seven Seas Explorer", itinerary: [
+    { day: 1, port: "Tokyo", time: "Depart 07:00 PM" },
+    { day: 2, port: "Nagoya", time: "10:00 AM – 06:00 PM" },
+    { day: 3, port: "Osaka", time: "Arrive 10:30 AM" },
+    { day: 4, port: "Osaka", time: "Depart 06:00 PM" },
+    { day: 5, port: "Cruising Philippine Sea" },
+    { day: 6, port: "Okinawa (Naha)", time: "09:00 AM – 05:30 PM" },
+    { day: 7, port: "Ishigaki (Sakishima Islands)", time: "11:00 AM – 07:00 PM" },
+    { day: 8, port: "Taipei (Keelung)", time: "07:00 AM – 05:00 PM" },
+    { day: 9, port: "Kaohsiung", time: "09:00 AM – 05:00 PM" },
+    { day: 10, port: "Hong Kong", time: "Arrive 02:15 PM" },
+    { day: 11, port: "Hong Kong" },
+  ]},
+  { id: 19, nights: 11, region: "Southeast Asia", regionAr: "جنوب شرق آسيا", cruiseLine: "Regent Seven Seas", ship: "Seven Seas Explorer", itinerary: [
+    { day: 1, port: "Bangkok (Laem Chabang)", time: "Depart 05:00 PM" },
+    { day: 2, port: "Ko Samui", time: "08:30 AM – 03:00 PM" },
+    { day: 3, port: "Cruising Gulf of Thailand" },
+    { day: 4, port: "Kuala Lumpur (Port Klang)", time: "Arrive 06:00 PM" },
+    { day: 5, port: "Kuala Lumpur (Port Klang)", time: "Depart 05:00 PM" },
+    { day: 6, port: "Cruising South China Sea" },
+    { day: 7, port: "Cruising Java Sea" },
+    { day: 8, port: "Jakarta", time: "07:00 AM – 05:00 PM" },
+    { day: 9, port: "Semarang (Java)", time: "09:00 AM – 07:00 PM" },
+    { day: 10, port: "Surabaya", time: "08:00 AM – 06:00 PM" },
+    { day: 11, port: "Bali (Benoa)", time: "Arrive 02:00 PM" },
+    { day: 12, port: "Bali (Benoa)" },
+  ]},
+  { id: 20, nights: 12, region: "Asia and Asia Pacific", regionAr: "آسيا والمحيط الهادئ", cruiseLine: "Regent Seven Seas", ship: "Seven Seas Explorer", itinerary: [
+    { day: 1, port: "Tokyo", time: "Depart 07:00 PM" },
+    { day: 2, port: "Shimizu", time: "08:00 AM – 06:00 PM" },
+    { day: 3, port: "Nagoya", time: "07:00 AM – 04:00 PM" },
+    { day: 4, port: "Osaka", time: "09:00 AM – 08:00 PM" },
+    { day: 5, port: "Kochi", time: "08:00 AM – 05:00 PM" },
+    { day: 6, port: "Hiroshima", time: "09:00 AM – 07:00 PM" },
+    { day: 7, port: "Cruising the Pacific Ocean" },
+    { day: 8, port: "Kagoshima", time: "08:00 AM – 06:00 PM" },
+    { day: 9, port: "Nagasaki", time: "08:00 AM – 06:00 PM" },
+    { day: 10, port: "Jeju", time: "09:00 AM – 06:00 PM" },
+    { day: 11, port: "Cruising Yellow Sea" },
+    { day: 12, port: "Seoul (Incheon)", time: "Arrive 08:00 AM" },
+    { day: 13, port: "Seoul (Incheon)" },
+  ]},
+  { id: 21, nights: 14, region: "Asia and Asia Pacific", regionAr: "آسيا والمحيط الهادئ", cruiseLine: "Regent Seven Seas", ship: "Seven Seas Explorer", itinerary: [
+    { day: 1, port: "Hong Kong", time: "Depart 06:00 PM" },
+    { day: 2, port: "Cruising Hainan Strait" },
+    { day: 3, port: "Hanoi (Ha Long Bay)", time: "08:00 AM – 06:00 PM" },
+    { day: 4, port: "Cruising South China Sea" },
+    { day: 5, port: "Cam Ranh", time: "08:00 AM – 06:00 PM" },
+    { day: 6, port: "Ho Chi Minh City (Saigon)", time: "Arrive 12:00 PM" },
+    { day: 7, port: "Ho Chi Minh City (Saigon)", time: "Depart 03:00 PM" },
+    { day: 8, port: "Cruising South China Sea" },
+    { day: 9, port: "Muara", time: "08:00 AM – 05:00 PM" },
+    { day: 10, port: "Cruising Sulu Sea" },
+    { day: 11, port: "Puerto Princesa", time: "08:00 AM – 05:00 PM" },
+    { day: 12, port: "Coron", time: "08:00 AM – 04:00 PM" },
+    { day: 13, port: "Manila", time: "08:00 AM – 04:00 PM" },
+    { day: 14, port: "Cruising South China Sea" },
+    { day: 15, port: "Hong Kong", time: "Arrive 07:00 AM" },
+  ]},
+  { id: 22, nights: 12, region: "Eastern Mediterranean", regionAr: "شرق البحر المتوسط", cruiseLine: "Regent Seven Seas", ship: "Seven Seas Grandeur", itinerary: [
+    { day: 1, port: "Istanbul", time: "Depart 05:00 PM" },
+    { day: 2, port: "Dikili", time: "10:00 AM – 06:00 PM" },
+    { day: 3, port: "Kusadasi", time: "08:00 AM – 06:00 PM" },
+    { day: 4, port: "Athens (Piraeus)", time: "07:00 AM – 09:00 PM" },
+    { day: 5, port: "Mykonos", time: "07:00 AM – 07:00 PM" },
+    { day: 6, port: "Cruising the Mediterranean Sea" },
+    { day: 7, port: "Gythion", time: "07:00 AM – 06:00 PM" },
+    { day: 8, port: "Argostoli (Cephalonia)", time: "08:00 AM – 06:00 PM" },
+    { day: 9, port: "Corfu", time: "08:00 AM – 06:00 PM" },
+    { day: 10, port: "Kotor", time: "08:00 AM – 06:00 PM" },
+    { day: 11, port: "Dubrovnik", time: "07:00 AM – 04:00 PM" },
+    { day: 12, port: "Cruising Adriatic Sea" },
+    { day: 13, port: "Venice (Trieste)", time: "Arrive 07:00 AM" },
+  ]},
+  { id: 23, nights: 10, region: "Western Europe", regionAr: "غرب أوروبا", cruiseLine: "Regent Seven Seas", ship: "Seven Seas Grandeur", itinerary: [
+    { day: 1, port: "London (Southampton)", time: "Depart 05:00 PM" },
+    { day: 2, port: "Saint-Malo", time: "09:45 AM – 08:45 PM" },
+    { day: 3, port: "Cruising North Atlantic Ocean" },
+    { day: 4, port: "La Rochelle", time: "07:00 AM – 05:00 PM" },
+    { day: 5, port: "Bordeaux", time: "Arrive 03:15 AM" },
+    { day: 6, port: "Bordeaux", time: "Depart 04:30 PM" },
+    { day: 7, port: "Biarritz (Saint-Jean-de-Luz)", time: "08:00 AM – 08:00 PM" },
+    { day: 8, port: "Bilbao", time: "07:00 AM – 04:00 PM" },
+    { day: 9, port: "La Coruna", time: "10:00 AM – 07:00 PM" },
+    { day: 10, port: "Cruising Bay of Biscay" },
+    { day: 11, port: "London (Southampton)", time: "Arrive 07:00 AM" },
+  ]},
+  { id: 24, nights: 12, region: "Western Europe", regionAr: "غرب أوروبا", cruiseLine: "Regent Seven Seas", ship: "Seven Seas Grandeur", itinerary: [
+    { day: 1, port: "London (Southampton)", time: "Depart 05:00 PM" },
+    { day: 2, port: "Cruising North Sea" },
+    { day: 3, port: "Edinburgh (South Queensferry)", time: "07:00 AM – 05:00 PM" },
+    { day: 4, port: "Invergordon", time: "09:00 AM – 07:00 PM" },
+    { day: 5, port: "Scrabster Harbour", time: "07:00 AM – 03:00 PM" },
+    { day: 6, port: "Bergen", time: "12:00 PM – 08:00 PM" },
+    { day: 7, port: "Lerwick (Shetland Islands)", time: "10:00 AM – 07:00 PM" },
+    { day: 8, port: "Torshavn (Faroe Islands)", time: "11:00 AM – 06:00 PM" },
+    { day: 9, port: "Stornoway (Hebrides)", time: "10:00 AM – 07:00 PM" },
+    { day: 10, port: "Belfast", time: "12:00 PM – 09:00 PM" },
+    { day: 11, port: "Dun Laoghaire", time: "07:00 AM – 07:00 PM" },
+    { day: 12, port: "Cruising Celtic Sea" },
+    { day: 13, port: "London (Southampton)", time: "Arrive 07:00 AM" },
+  ]},
+  { id: 25, nights: 8, region: "Caribbean Eastern", regionAr: "شرق الكاريبي", cruiseLine: "Royal Caribbean", ship: "Adventure of the Seas", itinerary: [
+    { day: 1, port: "Orlando (Port Canaveral), FL", time: "Depart 04:00 PM" },
+    { day: 2, port: "Cruising" },
+    { day: 3, port: "Cruising" },
+    { day: 4, port: "St. Croix, U.S.V.I.", time: "08:00 AM – 06:00 PM" },
+    { day: 5, port: "Philipsburg, St. Maarten", time: "08:00 AM – 05:00 PM" },
+    { day: 6, port: "San Juan, Puerto Rico", time: "07:00 AM – 03:00 PM" },
+    { day: 7, port: "Cruising" },
+    { day: 8, port: "Nassau, Bahamas", time: "07:00 AM – 02:00 PM" },
+    { day: 9, port: "Orlando (Port Canaveral), FL", time: "Arrive 07:00 AM" },
+  ]},
+  { id: 26, nights: 7, region: "Eastern Mediterranean", regionAr: "شرق البحر المتوسط", cruiseLine: "Royal Caribbean", ship: "Brilliance of the Seas", itinerary: [
+    { day: 1, port: "Rome (Civitavecchia), Italy", time: "Depart 05:00 PM" },
+    { day: 2, port: "Florence/Pisa (La Spezia), Italy", time: "06:30 AM – 08:00 PM" },
+    { day: 3, port: "Santa Margherita, Italy", time: "07:00 AM – 07:00 PM" },
+    { day: 4, port: "Nice (Villefranche), France", time: "07:00 AM – 07:00 PM" },
+    { day: 5, port: "Provence (Marseille), France", time: "08:00 AM – 06:00 PM" },
+    { day: 6, port: "Cruising" },
+    { day: 7, port: "Valencia, Spain", time: "07:00 AM – 05:00 PM" },
+    { day: 8, port: "Barcelona, Spain", time: "Arrive 05:00 AM" },
+  ]},
+  { id: 27, nights: 7, region: "Western Mediterranean", regionAr: "غرب البحر المتوسط", cruiseLine: "Royal Caribbean", ship: "Brilliance of the Seas", itinerary: [
+    { day: 1, port: "Rome (Civitavecchia), Italy", time: "Depart 05:00 PM" },
+    { day: 2, port: "Naples, Italy", time: "07:00 AM – 06:00 PM" },
+    { day: 3, port: "Catania, Sicily, Italy", time: "09:00 AM – 06:00 PM" },
+    { day: 4, port: "Cruising" },
+    { day: 5, port: "Santorini, Greece", time: "07:00 AM – 10:00 PM" },
+    { day: 6, port: "Ephesus (Kusadasi), Turkey", time: "09:00 AM – 07:00 PM" },
+    { day: 7, port: "Mykonos, Greece", time: "07:00 AM – 05:00 PM" },
+    { day: 8, port: "Athens (Piraeus), Greece", time: "Arrive 05:00 AM" },
+  ]},
+  { id: 28, nights: 7, region: "Eastern Mediterranean", regionAr: "شرق البحر المتوسط", cruiseLine: "Royal Caribbean", ship: "Explorer of the Seas", itinerary: [
+    { day: 1, port: "Ravenna, Italy", time: "Depart 05:00 PM" },
+    { day: 2, port: "Cruising" },
+    { day: 3, port: "Santorini, Greece", time: "01:30 PM – 11:00 PM" },
+    { day: 4, port: "Mykonos, Greece", time: "07:00 AM – 07:00 PM" },
+    { day: 5, port: "Athens (Piraeus), Greece", time: "07:00 AM – 07:00 PM" },
+    { day: 6, port: "Argostoli, Greece", time: "11:59 AM – 08:00 PM" },
+    { day: 7, port: "Cruising" },
+    { day: 8, port: "Ravenna, Italy", time: "Arrive 06:00 AM" },
+  ]},
+  { id: 29, nights: 7, region: "Western Mediterranean", regionAr: "غرب البحر المتوسط", cruiseLine: "Royal Caribbean", ship: "Harmony of the Seas", itinerary: [
+    { day: 1, port: "Barcelona, Spain", time: "Depart 05:00 PM" },
+    { day: 2, port: "Palma De Mallorca, Spain", time: "08:00 AM – 04:00 PM" },
+    { day: 3, port: "Provence (Marseille), France", time: "09:00 AM – 04:30 PM" },
+    { day: 4, port: "Florence/Pisa (La Spezia), Italy", time: "06:30 AM – 08:00 PM" },
+    { day: 5, port: "Rome (Civitavecchia), Italy", time: "07:00 AM – 07:00 PM" },
+    { day: 6, port: "Naples, Italy", time: "07:00 AM – 07:00 PM" },
+    { day: 7, port: "Cruising" },
+    { day: 8, port: "Barcelona, Spain", time: "Arrive 05:00 AM" },
+  ]},
+  { id: 30, nights: 7, region: "Western Mediterranean", regionAr: "غرب البحر المتوسط", cruiseLine: "Royal Caribbean", ship: "Legend of the Seas", itinerary: [
+    { day: 1, port: "Rome (Civitavecchia), Italy", time: "Depart 08:00 PM" },
+    { day: 2, port: "Cruising" },
+    { day: 3, port: "Provence (Marseille), France", time: "08:00 AM – 05:00 PM" },
+    { day: 4, port: "Barcelona, Spain", time: "08:00 AM – 08:00 PM" },
+    { day: 5, port: "Palma De Mallorca, Spain", time: "08:00 AM – 06:00 PM" },
+    { day: 6, port: "Cruising" },
+    { day: 7, port: "Florence/Pisa (La Spezia), Italy", time: "06:30 AM – 08:00 PM" },
+    { day: 8, port: "Rome (Civitavecchia), Italy", time: "Arrive 06:00 AM" },
+  ]},
+  { id: 31, nights: 8, region: "Western Mediterranean", regionAr: "غرب البحر المتوسط", cruiseLine: "Royal Caribbean", ship: "Legend of the Seas", itinerary: [
+    { day: 1, port: "Rome (Civitavecchia), Italy", time: "Depart 08:00 PM" },
+    { day: 2, port: "Cruising" },
+    { day: 3, port: "Naples, Italy", time: "07:00 AM – 07:00 PM" },
+    { day: 4, port: "Cruising" },
+    { day: 5, port: "Palma De Mallorca, Spain", time: "07:00 AM – 05:00 PM" },
+    { day: 6, port: "Alicante, Spain", time: "07:00 AM – 04:00 PM" },
+    { day: 7, port: "Malaga, Spain", time: "09:00 AM – 06:00 PM" },
+    { day: 8, port: "Cruising" },
+    { day: 9, port: "Barcelona, Spain", time: "Arrive 05:00 AM" },
+  ]},
+  { id: 32, nights: 7, region: "Western Europe", regionAr: "غرب أوروبا", cruiseLine: "Royal Caribbean", ship: "Liberty of the Seas", itinerary: [
+    { day: 1, port: "Southampton, England", time: "Depart 05:00 PM" },
+    { day: 2, port: "Cruising" },
+    { day: 3, port: "Vigo, Spain", time: "10:00 AM – 06:00 PM" },
+    { day: 4, port: "Lisbon, Portugal", time: "08:00 AM – 08:00 PM" },
+    { day: 5, port: "Cruising" },
+    { day: 6, port: "Bilbao, Spain", time: "08:00 AM – 06:00 PM" },
+    { day: 7, port: "Cruising" },
+    { day: 8, port: "Southampton, England", time: "Arrive 05:00 AM" },
+  ]},
+];
+
+export const cruisePackages: CruisePackage[] = trips.map((t) => ({
+  ...t,
+  map: mapForRegion(t.region),
+}));
