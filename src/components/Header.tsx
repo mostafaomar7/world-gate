@@ -4,7 +4,6 @@ import { Menu, X, Phone, Mail, MapPin, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
-import logo from "@/assets/logo.png";
 
 const SaudiFlag = ({ size = 18 }: { size?: number }) => (
   <svg width={size} height={Math.round(size * 0.67)} viewBox="0 0 900 600" className="rounded-sm flex-shrink-0">
